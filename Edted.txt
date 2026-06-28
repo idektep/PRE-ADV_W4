@@ -1,0 +1,971 @@
+
+/* === CSS ==  */
+
+
+*{box-sizing:border-box;margin:0;padding:0}
+.dash{background:#0d0f14;padding:16px;font-family:'Inter',sans-serif;color:#e2e8f0;min-height:600px}
+.topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;padding-bottom:14px;border-bottom:.5px solid #1e2533}
+.logo{display:flex;align-items:center;gap:10px}
+.logo-icon{width:32px;height:32px;background:#00d4ff18;border:1px solid #00d4ff44;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:15px}
+.logo-text{font-size:15px;font-weight:600;letter-spacing:.5px}
+.logo-sub{font-size:10px;color:#4a5568;letter-spacing:1px;text-transform:uppercase}
+.status-bar{display:flex;align-items:center;gap:10px}
+.conn-badge{display:flex;align-items:center;gap:6px;font-size:12px;padding:5px 12px;border-radius:20px;border:.5px solid #1e2533}
+.conn-badge.connected{background:#0a1f1a;border-color:#00875a55;color:#00d68f}
+.conn-badge.disconnected{background:#1a0f0f;border-color:#e5534b44;color:#e5534b}
+.conn-badge.connecting{background:#151a0f;border-color:#f0a53055;color:#f0a530}
+.dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.dot.g{background:#00d68f;box-shadow:0 0 6px #00d68f88}
+.dot.r{background:#e5534b}
+.dot.y{background:#f0a530;animation:blink 1s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+.broker-info{font-size:11px;color:#4a5568}
+.sec{font-size:10px;font-weight:500;color:#4a5568;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px}
+
+
+
+/* ── GAUGE GRID (3 top) ── */
+.gauge-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:14px}
+.gauge-card{background:#131720;border:.5px solid #1e2533;border-radius:12px;padding:14px 10px 10px;display:flex;flex-direction:column;align-items:center;position:relative;overflow:hidden;transition:border-color .3s}
+.gauge-card:hover{border-color:#2a3548}
+.g-topbar{position:absolute;top:0;left:0;right:0;height:2px;border-radius:12px 12px 0 0}
+.gauge-label{font-size:10px;color:#4a5568;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;font-weight:500}
+.gauge-wrap{position:relative;width:130px;height:75px;margin-bottom:2px}
+.gauge-center{position:absolute;bottom:0;left:50%;transform:translateX(-50%);text-align:center;line-height:1}
+.gauge-num{font-size:24px;font-weight:300;letter-spacing:-1px}
+.gauge-unit{font-size:11px;color:#4a5568;margin-left:1px}
+.gauge-minmax{display:flex;justify-content:space-between;width:130px;font-size:9px;color:#2d3748;margin-top:2px}
+.gauge-sub{font-size:10px;margin-top:5px;font-weight:500}
+.gauge-topic{font-size:9px;color:#2d3748;font-family:monospace;margin-top:5px;padding:2px 7px;background:#0d0f14;border-radius:4px;border:.5px solid #1a1f2e}
+
+
+
+
+
+/* ── SMALL CARDS (2 rows: pressure+co2+soil | rain) ── */
+.small-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px}
+.card{background:#131720;border:.5px solid #1e2533;border-radius:10px;padding:12px;position:relative;overflow:hidden;transition:border-color .3s}
+.card-accent{position:absolute;top:0;left:0;right:0;height:2px;border-radius:10px 10px 0 0}
+.card-icon{font-size:15px;margin-bottom:7px}
+.card-lbl{font-size:9px;color:#4a5568;text-transform:uppercase;letter-spacing:.5px;margin-bottom:2px}
+.card-val{font-size:20px;font-weight:300;letter-spacing:-1px;line-height:1}
+.card-unit{font-size:11px;color:#4a5568}
+.card-sub{font-size:10px;margin-top:4px}
+.card-topic{font-size:9px;color:#2d3748;font-family:monospace;margin-top:5px;padding:2px 7px;background:#0d0f14;border-radius:4px;border:.5px solid #1a1f2e;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pres .card-accent{background:#a855f7}.pres .card-val{color:#c084fc}
+.co2  .card-accent{background:#10b981}.co2 .card-val{color:#34d399}
+.soil .card-accent{background:#78716c}.soil .card-val{color:#d6d3d1}
+
+
+
+
+/* ── RAIN CARD ── */
+.rain-card{background:#131720;border:.5px solid #1e2533;border-radius:10px;padding:12px;position:relative;overflow:hidden;transition:border-color .3s,background .5s}
+.rain-card.raining{border-color:#38bdf855;background:#090e14}
+.rain-card .card-accent{background:#38bdf8}
+.rain-state-badge{display:inline-flex;align-items:center;gap:5px;font-size:10px;font-weight:600;padding:3px 9px;border-radius:10px;margin-top:5px;letter-spacing:.5px}
+.rain-state-badge.dry{background:#1a1a14;color:#a16207;border:.5px solid #a1620744}
+.rain-state-badge.rain{background:#0a1522;color:#38bdf8;border:.5px solid #38bdf855}
+
+
+
+
+/* Rain intensity bar */
+.rain-bar-wrap{width:100%;height:8px;background:#1e2533;border-radius:4px;margin-top:8px;overflow:hidden}
+.rain-bar{height:100%;border-radius:4px;transition:width .6s ease,background .3s}
+
+
+
+
+/* Rain drop animation */
+.rain-drops{position:absolute;top:0;left:0;right:0;bottom:0;pointer-events:none;overflow:hidden;opacity:0;transition:opacity .5s}
+.rain-drops.active{opacity:1}
+.drop{position:absolute;width:1.5px;border-radius:2px;background:linear-gradient(to bottom,#38bdf800,#38bdf8aa);animation:fall linear infinite}
+@keyframes fall{from{transform:translateY(-20px)}to{transform:translateY(120px)}}
+
+
+
+
+
+/* ── CONTROL ── */
+.control-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px}
+.ctrl-card{background:#131720;border:.5px solid #1e2533;border-radius:12px;padding:14px;display:flex;align-items:center;justify-content:space-between;transition:border-color .3s}
+.ctrl-card.on-light{border-color:#eab30855;background:#14120a}
+.ctrl-card.on-fan{border-color:#3b82f655;background:#0a0e1a}
+.ctrl-left{display:flex;align-items:center;gap:12px}
+.ctrl-ico{width:42px;height:42px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;transition:background .3s,box-shadow .3s}
+.ctrl-ico.light-ico{background:#1a160a}
+.ctrl-ico.light-ico.on{background:#292010;box-shadow:0 0 16px #fde04733}
+.ctrl-ico.fan-ico{background:#0a0e1a}
+.ctrl-ico.fan-ico.on{background:#0f1528;box-shadow:0 0 16px #3b82f633}
+.ctrl-name{font-size:13px;font-weight:500}
+.ctrl-topic{font-size:9px;font-family:monospace;color:#2d3748;margin-top:2px}
+.ctrl-status{font-size:10px;margin-top:3px;font-weight:500}
+.ctrl-status.on-light{color:#fde047}
+.ctrl-status.on-fan{color:#60a5fa}
+.ctrl-status.off{color:#4a5568}
+.toggle-wrap{display:flex;flex-direction:column;align-items:center;gap:5px}
+.toggle{position:relative;width:50px;height:26px;cursor:pointer}
+.toggle input{opacity:0;width:0;height:0;position:absolute}
+.slider{position:absolute;inset:0;background:#1e2533;border-radius:26px;border:.5px solid #2a3548;transition:background .3s,border-color .3s}
+.slider:before{content:'';position:absolute;height:18px;width:18px;left:4px;bottom:3.5px;background:#4a5568;border-radius:50%;transition:transform .3s,background .3s}
+input:checked+.slider{background:#fde04722;border-color:#eab30855}
+input:checked+.slider:before{transform:translateX(24px);background:#fde047}
+.fan-toggle input:checked+.slider{background:#3b82f622;border-color:#3b82f655}
+.fan-toggle input:checked+.slider:before{background:#60a5fa}
+.toggle-lbl{font-size:9px;color:#4a5568;text-transform:uppercase;letter-spacing:.5px}
+.fan-spin{display:inline-block}
+.fan-spin.spinning{animation:spin .6s linear infinite}
+@keyframes spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+
+
+
+
+/* ── AUTO ── */
+.auto-card{background:#131720;border:.5px solid #1e2533;border-radius:12px;padding:12px;margin-bottom:14px}
+.auto-row{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.auto-col{display:flex;flex-direction:column;gap:3px;flex:1;min-width:90px}
+.auto-lbl{font-size:9px;color:#4a5568;text-transform:uppercase;letter-spacing:.5px}
+.thresh-input{background:#0d0f14;border:.5px solid #1e2533;border-radius:5px;color:#e2e8f0;font-size:12px;padding:5px 8px;width:68px;outline:none;font-family:monospace}
+.thresh-input:focus{border-color:#f97316}
+.auto-toggle{display:flex;align-items:center;gap:7px;padding:6px 12px;border-radius:8px;border:.5px solid #1e2533;cursor:pointer;font-size:11px;color:#4a5568;background:#0d0f14;transition:all .2s;user-select:none}
+.auto-toggle.active{background:#0a1a2e;border-color:#3b82f655;color:#60a5fa}
+.auto-toggle .ai-dot{width:6px;height:6px;border-radius:50%;background:#4a5568;flex-shrink:0}
+.auto-toggle.active .ai-dot{background:#60a5fa;box-shadow:0 0 5px #3b82f688;animation:blink 1.2s infinite}
+
+
+
+
+
+/* ── ALERT ── */
+.alert-strip{background:#1a0f0a;border:.5px solid #f9731644;border-radius:8px;padding:6px 12px;font-size:11px;color:#fb923c;display:none;align-items:center;gap:8px;margin-bottom:10px}
+.alert-strip.show{display:flex}
+.alert-strip.blue{background:#0a0f1a;border-color:#38bdf855;color:#38bdf8}
+
+
+
+
+/* ── BOTTOM ── */
+.bottom-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px}
+.chart-card{background:#131720;border:.5px solid #1e2533;border-radius:12px;padding:14px}
+.chart-ttl{font-size:10px;color:#4a5568;font-weight:500;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;display:flex;align-items:center;justify-content:space-between}
+.chart-tag{font-size:9px;color:#00d68f;background:#0a1f1a;padding:2px 7px;border-radius:10px;text-transform:none;letter-spacing:0}
+.sparkline{width:100%;height:58px}
+.sparkline canvas{width:100%;height:100%}
+.log-card{background:#131720;border:.5px solid #1e2533;border-radius:12px;padding:14px}
+.log-ttl{font-size:10px;color:#4a5568;text-transform:uppercase;letter-spacing:1px;font-weight:500;margin-bottom:8px}
+.log-list{display:flex;flex-direction:column;gap:4px;max-height:200px;overflow-y:auto}
+.log-item{display:flex;gap:7px;font-size:10px;align-items:flex-start;padding:4px 7px;background:#0d0f14;border-radius:5px;border:.5px solid #1a1f2e}
+.log-time{color:#2d3748;font-family:monospace;white-space:nowrap;flex-shrink:0}
+.log-topic{color:#3b82f6;font-family:monospace;flex-shrink:0;max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.log-topic.pub{color:#f97316}
+.log-topic.rain{color:#38bdf8}
+.log-val{color:#e2e8f0}
+.log-new{animation:flash .5s ease-out}
+@keyframes flash{from{background:#0a1f1a}to{background:#0d0f14}}
+
+
+
+
+
+/* ── CONFIG ── */
+.cfg-wrap{background:#131720;border:.5px solid #1e2533;border-radius:12px;padding:12px;margin-bottom:14px}
+.cfg-row{display:flex;gap:10px;flex-wrap:wrap}
+.cfg-grp{display:flex;flex-direction:column;gap:3px;flex:1;min-width:100px}
+.cfg-lbl{font-size:9px;color:#4a5568;text-transform:uppercase;letter-spacing:.5px}
+.cfg-inp{background:#0d0f14;border:.5px solid #1e2533;border-radius:5px;color:#e2e8f0;font-size:11px;padding:6px 9px;outline:none;width:100%;font-family:monospace}
+.cfg-inp:focus{border-color:#3b82f6}
+.cfg-btn{padding:6px 12px;background:#131720;border:.5px solid #1e2533;border-radius:6px;color:#e2e8f0;font-size:11px;cursor:pointer;white-space:nowrap;align-self:flex-end;transition:all .2s}
+.cfg-btn:hover{background:#1e2533;border-color:#3b82f6;color:#60a5fa}
+.cfg-btn.p{background:#0a1a2e;border-color:#3b82f655;color:#60a5fa}
+hr.dv{border:none;border-top:.5px solid #1e2533;margin:12px 0}
+
+
+==========================================================================================================
+
+
+/* == HTML == */
+
+<div class="dash">
+  <!-- Topbar -->
+  <div class="topbar">
+    <div class="logo">
+      <div class="logo-icon">🌡️</div>
+      <div><div class="logo-text">IoT Sensor Dashboard</div><div class="logo-sub">EMQX · MQTT · Live</div></div>
+    </div>
+    <div class="status-bar">
+      <div class="broker-info" id="brokerInfo">broker.emqx.io:8084</div>
+      <div class="conn-badge disconnected" id="connBadge"><div class="dot r" id="connDot"></div><span id="connText">Disconnected</span></div>
+    </div>
+  </div>
+
+  <div class="alert-strip" id="alertStrip">⚠️ <span id="alertMsg"></span></div>
+  <div class="alert-strip blue" id="rainAlert" style="margin-bottom:10px">🌧️ <span id="rainAlertMsg"></span></div>
+
+  <!-- MQTT Config -->
+  <div class="cfg-wrap">
+    <div class="sec" style="margin-bottom:8px">MQTT Config</div>
+    <div class="cfg-row">
+      <div class="cfg-grp" style="flex:2"><div class="cfg-lbl">Broker (WebSocket)</div><input class="cfg-inp" id="cfgBroker" value="wss://broker.emqx.io:8084/mqtt"/></div>
+      <div class="cfg-grp"><div class="cfg-lbl">Client ID</div><input class="cfg-inp" id="cfgClientId" value="iotdash_001"/></div>
+      <div class="cfg-grp"><div class="cfg-lbl">Sub Topic</div><input class="cfg-inp" id="cfgPrefix" value="sensors/#"/></div>
+      <button class="cfg-btn p" id="btnConnect">Connect</button>
+      <button class="cfg-btn" id="btnDemo">▶ Demo</button>
+    </div>
+  </div>
+
+  ==========================================================================================================
+
+
+
+
+
+  <!-- GAUGE: Temp / Humid / Light -->
+  <div class="sec">Sensor Readings</div>
+  <div class="gauge-grid">
+
+    <div class="gauge-card">
+      <div class="g-topbar" style="background:#f97316"></div>
+      <div class="gauge-label">Temperature</div>
+      <div class="gauge-wrap"><canvas id="gTemp" width="130" height="75"></canvas>
+        <div class="gauge-center"><span class="gauge-num" id="numTemp" style="color:#fb923c">—</span><span class="gauge-unit">°C</span></div>
+      </div>
+      <div class="gauge-minmax"><span>0°C</span><span>50°C</span></div>
+      <div class="gauge-sub" id="subTemp" style="color:#4a5568">— DHT22</div>
+      <div class="gauge-topic">sensors/dht/temperature</div>
+    </div>
+
+
+    <div class="gauge-card">
+      <div class="g-topbar" style="background:#3b82f6"></div>
+      <div class="gauge-label">Humidity</div>
+      <div class="gauge-wrap"><canvas id="gHumid" width="130" height="75"></canvas>
+        <div class="gauge-center"><span class="gauge-num" id="numHumid" style="color:#60a5fa">—</span><span class="gauge-unit">%</span></div>
+      </div>
+      <div class="gauge-minmax"><span>0%</span><span>100%</span></div>
+      <div class="gauge-sub" id="subHumid" style="color:#4a5568">— DHT22</div>
+      <div class="gauge-topic">sensors/dht/humidity</div>
+    </div>
+
+
+
+    <div class="gauge-card">
+      <div class="g-topbar" style="background:#eab308"></div>
+      <div class="gauge-label">Light</div>
+      <div class="gauge-wrap"><canvas id="gLight" width="130" height="75"></canvas>
+        <div class="gauge-center"><span class="gauge-num" id="numLight" style="color:#fde047;font-size:20px">—</span><span class="gauge-unit">lux</span></div>
+      </div>
+      <div class="gauge-minmax"><span>0</span><span>1000</span></div>
+      <div class="gauge-sub" id="subLight" style="color:#4a5568">— BH1750</div>
+      <div class="gauge-topic">sensors/light/lux</div>
+    </div>
+
+  </div>
+
+
+  
+  ==========================================================================================================
+
+  <!-- Small cards: Pressure / CO2 / Soil / Rain -->
+  <div class="small-grid">
+    <div class="card pres">
+      <div class="card-accent"></div>
+      <div class="card-icon">🌬️</div>
+      <div class="card-lbl">Pressure</div>
+      <div><span class="card-val" id="valPres">—</span><span class="card-unit"> hPa</span></div>
+      <div class="card-sub" id="subPres" style="color:#4a5568">— BMP280</div>
+      <div class="card-topic">sensors/bmp/pressure</div>
+    </div>
+
+
+
+    <div class="card co2">
+      <div class="card-accent"></div>
+      <div class="card-icon">🫧</div>
+      <div class="card-lbl">CO₂</div>
+      <div><span class="card-val" id="valCO2">—</span><span class="card-unit"> ppm</span></div>
+      <div class="card-sub" id="subCO2" style="color:#4a5568">— MQ135</div>
+      <div class="card-topic">sensors/air/co2</div>
+    </div>
+
+
+
+    <div class="card soil">
+      <div class="card-accent"></div>
+      <div class="card-icon">🌱</div>
+      <div class="card-lbl">Soil Moisture</div>
+      <div><span class="card-val" id="valSoil">—</span><span class="card-unit"> %</span></div>
+      <div class="card-sub" id="subSoil" style="color:#4a5568">— Capacitive</div>
+      <div class="card-topic">sensors/soil/moisture</div>
+    </div>
+
+    ==========================================================================================================
+
+    <!-- Rain Card -->
+    <div class="rain-card card" id="rainCard">
+      <div class="card-accent" style="background:#38bdf8"></div>
+      <!-- rain drop animation layer -->
+      <div class="rain-drops" id="rainDrops"></div>
+      <div class="card-icon">🌧️</div>
+      <div class="card-lbl">Rain Sensor</div>
+      <div><span class="card-val" id="valRain" style="color:#38bdf8">—</span><span class="card-unit"> %</span></div>
+      <div class="rain-bar-wrap"><div class="rain-bar" id="rainBar" style="width:0%;background:#38bdf8"></div></div>
+      <div id="rainBadge" class="rain-state-badge dry">☀️ DRY</div>
+      <div class="card-topic">sensors/rain/intensity</div>
+    </div>
+  </div>
+
+  ==========================================================================================================
+
+  <!-- Device Control -->
+  <div class="sec">Device Control</div>
+  <div class="control-grid">
+    <div class="ctrl-card" id="cardLight">
+      <div class="ctrl-left">
+        <div class="ctrl-ico light-ico" id="lightIco">💡</div>
+        <div><div class="ctrl-name">ไฟห้อง</div><div class="ctrl-topic">control/light → ON/OFF</div><div class="ctrl-status off" id="lightStat">● ปิดอยู่</div></div>
+      </div>
+      <div class="toggle-wrap">
+        <label class="toggle"><input type="checkbox" id="togLight"/><span class="slider"></span></label>
+        <span class="toggle-lbl" id="lblLight">OFF</span>
+      </div>
+    </div>
+
+
+
+    <div class="ctrl-card" id="cardFan">
+      <div class="ctrl-left">
+        <div class="ctrl-ico fan-ico" id="fanIco"><span class="fan-spin" id="fanSpin">🌀</span></div>
+        <div><div class="ctrl-name">พัดลม</div><div class="ctrl-topic">control/fan → ON/OFF</div><div class="ctrl-status off" id="fanStat">● ปิดอยู่</div></div>
+      </div>
+      <div class="toggle-wrap">
+        <label class="toggle fan-toggle"><input type="checkbox" id="togFan"/><span class="slider"></span></label>
+        <span class="toggle-lbl" id="lblFan">OFF</span>
+      </div>
+    </div>
+  </div>
+
+ ==========================================================================================================
+
+  <!-- Auto Control -->
+
+  <div class="sec">Auto Temperature Control</div>
+  <div class="auto-card">
+    <div class="auto-row">
+      <div class="auto-col">
+        <div class="auto-lbl">🌡️ Threshold พัดลม ON</div>
+        <div style="display:flex;align-items:center;gap:6px;margin-top:4px">
+          <input class="thresh-input" id="threshFan" type="number" value="30" min="20" max="50"/>
+          <span style="font-size:11px;color:#4a5568">°C</span>
+        </div>
+      </div>
+
+
+      <div class="auto-col">
+        <div class="auto-lbl">💡 Threshold ไฟ OFF (สว่าง)</div>
+        <div style="display:flex;align-items:center;gap:6px;margin-top:4px">
+          <input class="thresh-input" id="threshLight" type="number" value="500" min="100" max="2000" style="width:75px"/>
+          <span style="font-size:11px;color:#4a5568">lux</span>
+        </div>
+      </div>
+
+
+      <div class="auto-col">
+        <div class="auto-lbl">Status</div>
+        <div style="font-size:11px;font-weight:500;margin-top:4px;color:#4a5568" id="autoStat">Auto OFF</div>
+      </div>
+      <div class="auto-toggle" id="autoToggle" onclick="toggleAuto()">
+        <div class="ai-dot"></div>
+        <span id="autoLbl">Auto Control: OFF</span>
+      </div>
+    </div>
+  </div>
+
+  ==========================================================================================================
+
+  <!-- Charts + Log -->
+  <div class="bottom-grid">
+    <div class="chart-card">
+      <div class="chart-ttl">Temperature <span class="chart-tag">live</span></div>
+      <div class="sparkline"><canvas id="cTemp"></canvas></div>
+      <div class="chart-ttl" style="margin-top:10px">Humidity <span class="chart-tag">live</span></div>
+      <div class="sparkline"><canvas id="cHumid"></canvas></div>
+    </div>
+    <div class="log-card">
+      <div class="log-ttl">MQTT Message Log</div>
+      <div class="log-list" id="logList"><div style="font-size:11px;color:#2d3748;text-align:center;padding:20px 0">Waiting for messages...</div></div>
+    </div>
+  </div>
+
+
+  <hr class="dv">
+  <div class="sec">Publish to Topic</div>
+  <div class="cfg-row" style="margin-top:6px">
+    <div class="cfg-grp" style="flex:2"><div class="cfg-lbl">Topic</div><input class="cfg-inp" id="pubTopic" value="sensors/rain/intensity"/></div>
+    <div class="cfg-grp" style="flex:1"><div class="cfg-lbl">Payload</div><input class="cfg-inp" id="pubPayload" value='{"value":65}'/></div>
+    <button class="cfg-btn p" id="btnPublish">Publish</button>
+  </div>
+</div>
+
+===============================================================================================
+
+
+==== JavaScript ==========
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mqtt/4.3.7/mqtt.min.js"></script>
+<script>
+/* ── Gauge ── */
+function drawGauge(id,val,min,max,color,warn,danger){
+  const c=document.getElementById(id); if(!c) return;
+  const w=130,h=75; c.width=w; c.height=h;
+  const ctx=c.getContext('2d');
+  ctx.clearRect(0,0,w,h);
+  const cx=w/2,cy=h-4,r=56;
+  const SA=Math.PI,EA=2*Math.PI;
+  const pct=Math.min(Math.max((val-min)/(max-min),0),1);
+  const vA=SA+pct*(EA-SA);
+  ctx.beginPath();ctx.arc(cx,cy,r,SA,EA);ctx.strokeStyle='#1e2533';ctx.lineWidth=10;ctx.lineCap='round';ctx.stroke();
+  function arc(s,e,col){ctx.beginPath();ctx.arc(cx,cy,r,s,e);ctx.strokeStyle=col;ctx.lineWidth=10;ctx.lineCap='butt';ctx.stroke();}
+  if(warn!=null&&danger!=null){
+    const wA=SA+((warn-min)/(max-min))*(EA-SA);
+    const dA=SA+((danger-min)/(max-min))*(EA-SA);
+    arc(SA,wA,'#1e3a1e');arc(wA,dA,'#2a2010');arc(dA,EA,'#2a1010');
+  }
+  const arcCol=danger!=null&&val>=danger?'#ef4444':warn!=null&&val>=warn?'#f97316':color;
+  ctx.beginPath();ctx.arc(cx,cy,r,SA,vA);ctx.strokeStyle=arcCol;ctx.lineWidth=10;ctx.lineCap='round';ctx.stroke();
+  const na=SA+pct*(EA-SA);
+  const nx=cx+Math.cos(na)*(r-14),ny=cy+Math.sin(na)*(r-14);
+  ctx.beginPath();ctx.arc(nx,ny,4,0,2*Math.PI);ctx.fillStyle='#fff';ctx.fill();
+  ctx.beginPath();ctx.arc(cx,cy,5,0,2*Math.PI);ctx.fillStyle='#2a3548';ctx.fill();
+  ctx.beginPath();ctx.arc(cx,cy,3,0,2*Math.PI);ctx.fillStyle='#4a5568';ctx.fill();
+}
+
+
+
+
+
+
+
+/* ── Rain drops animation ── */
+function createDrops(){
+  const wrap=document.getElementById('rainDrops');
+  wrap.innerHTML='';
+  for(let i=0;i<18;i++){
+    const d=document.createElement('div');
+    d.className='drop';
+    const h=Math.random()*14+6;
+    d.style.cssText=`left:${Math.random()*100}%;height:${h}px;animation-duration:${Math.random()*.5+.4}s;animation-delay:-${Math.random()*.8}s;opacity:${Math.random()*.5+.3}`;
+    wrap.appendChild(d);
+  }
+}
+createDrops();
+
+function setRainUI(pct, isRaining){
+  const card=document.getElementById('rainCard');
+  const drops=document.getElementById('rainDrops');
+  const badge=document.getElementById('rainBadge');
+  const bar=document.getElementById('rainBar');
+  const numEl=document.getElementById('valRain');
+
+  numEl.textContent=pct.toFixed(1);
+  bar.style.width=pct+'%';
+
+  // bar color by intensity
+  const barColor = pct<30?'#0ea5e9': pct<60?'#38bdf8': pct<80?'#7dd3fc':'#bfdbfe';
+  bar.style.background=barColor;
+
+  if(isRaining){
+    card.className='rain-card card raining';
+    drops.className='rain-drops active';
+    badge.className='rain-state-badge rain';
+    badge.textContent='🌧️ RAINING';
+    // rain alert
+    const ra=document.getElementById('rainAlert');
+    document.getElementById('rainAlertMsg').textContent=`ตรวจพบฝน! ความเข้ม ${pct.toFixed(0)}%`;
+    ra.classList.add('show');
+    setTimeout(()=>ra.classList.remove('show'),5000);
+  } else {
+    card.className='rain-card card';
+    drops.className='rain-drops';
+    badge.className='rain-state-badge dry';
+    badge.textContent='☀️ DRY';
+  }
+}
+
+
+
+
+
+
+
+/* ── State ── */
+let client=null,demoInterval=null,isDemo=false,autoEnabled=false;
+let lightOn=false,fanOn=false,lastTemp=null,lastLight=null;
+const histTemp=[],histHumid=[];
+
+function setConn(s){
+  const b=document.getElementById('connBadge'),d=document.getElementById('connDot'),t=document.getElementById('connText');
+  b.className='conn-badge '+s;
+  if(s==='connected'){d.className='dot g';t.textContent='Connected';}
+  else if(s==='connecting'){d.className='dot y';t.textContent='Connecting...';}
+  else{d.className='dot r';t.textContent='Disconnected';}
+}
+
+function addLog(topic,payload,cls){
+  const list=document.getElementById('logList');
+  if(list.querySelector('[style*="text-align"]')) list.innerHTML='';
+  const item=document.createElement('div'); item.className='log-item log-new';
+  const t=new Date().toLocaleTimeString('th-TH',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
+  const isPub=cls==='pub';
+  item.innerHTML=`<span class="log-time">${t}</span><span class="log-topic ${cls||''}">${isPub?'📤 ':''}${topic}</span><span class="log-val">${payload}</span>`;
+  list.insertBefore(item,list.firstChild);
+  while(list.children.length>30) list.removeChild(list.lastChild);
+}
+
+function showAlert(msg){
+  const s=document.getElementById('alertStrip');
+  document.getElementById('alertMsg').textContent=msg;
+  s.classList.add('show'); setTimeout(()=>s.classList.remove('show'),4000);
+}
+
+function addHist(arr,v){arr.push(parseFloat(v));if(arr.length>30)arr.shift();}
+function drawSpark(id,data,color){
+  const c=document.getElementById(id);if(!c)return;
+  const w=c.offsetWidth||280,h=58;c.width=w;c.height=h;
+  const ctx=c.getContext('2d');ctx.clearRect(0,0,w,h);
+  if(data.length<2)return;
+  const mn=Math.min(...data)-2,mx=Math.max(...data)+2,rng=mx-mn||1;
+  ctx.beginPath();ctx.strokeStyle=color;ctx.lineWidth=1.5;
+  data.forEach((v,i)=>{const x=(i/(data.length-1))*w,y=h-((v-mn)/rng)*(h-8)-4;i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);});
+  ctx.stroke();ctx.lineTo(w,h);ctx.lineTo(0,h);ctx.closePath();ctx.fillStyle=color+'18';ctx.fill();
+}
+
+function updateGauge(numId,subId,gId,val,mn,mx,color,warn,danger,subTxt,alertCond){
+  const el=document.getElementById(numId),sub=document.getElementById(subId);
+  if(el) el.textContent=val>=100?Math.round(val):val.toFixed(1);
+  if(sub){sub.textContent=subTxt;sub.style.color=alertCond?'#f97316':'#00d68f';}
+  drawGauge(gId,val,mn,mx,color,warn,danger);
+  if(alertCond) showAlert(subTxt);
+}
+function updateSmall(valId,subId,val,subTxt,alertCond){
+  const el=document.getElementById(valId),sub=document.getElementById(subId);
+  if(el) el.textContent=typeof val==='number'?val.toFixed(1):val;
+  if(sub){sub.textContent=subTxt;sub.style.color=alertCond?'#f97316':'#00d68f';}
+  if(alertCond) showAlert(subTxt);
+}
+
+function setLight(on,fromAuto){
+  lightOn=on;
+  const tog=document.getElementById('togLight'),card=document.getElementById('cardLight');
+  const ico=document.getElementById('lightIco'),stat=document.getElementById('lightStat'),lbl=document.getElementById('lblLight');
+  tog.checked=on;
+  if(on){card.className='ctrl-card on-light';ico.className='ctrl-ico light-ico on';stat.textContent='● เปิดอยู่';stat.className='ctrl-status on-light';lbl.textContent='ON';}
+  else{card.className='ctrl-card';ico.className='ctrl-ico light-ico';stat.textContent='● ปิดอยู่';stat.className='ctrl-status off';lbl.textContent='OFF';}
+  const p=JSON.stringify({value:on?'ON':'OFF'});
+  if(client&&client.connected) client.publish('control/light',p,{qos:1});
+  if(!fromAuto) addLog('control/light',p,'pub');
+}
+function setFan(on,fromAuto){
+  fanOn=on;
+  const tog=document.getElementById('togFan'),card=document.getElementById('cardFan');
+  const ico=document.getElementById('fanIco'),spin=document.getElementById('fanSpin');
+  const stat=document.getElementById('fanStat'),lbl=document.getElementById('lblFan');
+  tog.checked=on;
+  if(on){card.className='ctrl-card on-fan';ico.className='ctrl-ico fan-ico on';spin.className='fan-spin spinning';stat.textContent='● กำลังหมุน';stat.className='ctrl-status on-fan';lbl.textContent='ON';}
+  else{card.className='ctrl-card';ico.className='ctrl-ico fan-ico';spin.className='fan-spin';stat.textContent='● ปิดอยู่';stat.className='ctrl-status off';lbl.textContent='OFF';}
+  const p=JSON.stringify({value:on?'ON':'OFF'});
+  if(client&&client.connected) client.publish('control/fan',p,{qos:1});
+  if(!fromAuto) addLog('control/fan',p,'pub');
+}
+document.getElementById('togLight').addEventListener('change',e=>setLight(e.target.checked,false));
+document.getElementById('togFan').addEventListener('change',e=>setFan(e.target.checked,false));
+
+function toggleAuto(){
+  autoEnabled=!autoEnabled;
+  const btn=document.getElementById('autoToggle'),lbl=document.getElementById('autoLbl'),stat=document.getElementById('autoStat');
+  if(autoEnabled){btn.classList.add('active');lbl.textContent='Auto Control: ON';stat.style.color='#60a5fa';runAuto();}
+  else{btn.classList.remove('active');lbl.textContent='Auto Control: OFF';stat.textContent='Auto OFF';stat.style.color='#4a5568';}
+}
+function runAuto(){
+  if(!autoEnabled) return;
+  const tf=parseFloat(document.getElementById('threshFan').value)||30;
+  const tl=parseFloat(document.getElementById('threshLight').value)||500;
+  const stat=document.getElementById('autoStat');let actions=[];
+  if(lastTemp!==null){
+    if(lastTemp>=tf&&!fanOn){setFan(true,true);actions.push(`พัดลม ON (${lastTemp.toFixed(1)}°C ≥ ${tf}°C)`);}
+    else if(lastTemp<tf-2&&fanOn){setFan(false,true);actions.push(`พัดลม OFF`);}
+  }
+  if(lastLight!==null){
+    if(lastLight>=tl&&lightOn){setLight(false,true);actions.push(`ไฟ OFF (${Math.round(lastLight)} lux)`);}
+    else if(lastLight<tl*.7&&!lightOn){setLight(true,true);actions.push(`ไฟ ON`);}
+  }
+  if(actions.length){stat.textContent='✓ '+actions[0];stat.style.color='#00d68f';actions.forEach(a=>addLog('🤖 auto',a,''));}
+  else{stat.textContent=lastTemp!==null?`${lastTemp.toFixed(1)}°C — ปกติดี`:'รอข้อมูล...';stat.style.color='#00d68f';}
+}
+
+
+
+/* ── Topic Map ── */
+const topicMap={
+  'sensors/dht/temperature': v=>{
+    lastTemp=parseFloat(v);const t=lastTemp;
+    updateGauge('numTemp','subTemp','gTemp',t,0,50,'#f97316',35,40,t>40?'⚠️ ร้อนมาก':t>35?'🌡️ อุ่น':'✓ ปกติ',t>40);
+    addHist(histTemp,t);drawSpark('cTemp',histTemp,'#f97316');
+    if(autoEnabled) runAuto();
+  },
+  'sensors/dht/humidity': v=>{
+    const h=parseFloat(v);
+    updateGauge('numHumid','subHumid','gHumid',h,0,100,'#3b82f6',70,90,h>90?'💧 ชื้นมาก':h>70?'💧 ค่อนข้างชื้น':'✓ ปกติ',h>90);
+    addHist(histHumid,h);drawSpark('cHumid',histHumid,'#3b82f6');
+  },
+  'sensors/light/lux': v=>{
+    lastLight=parseFloat(v);const l=lastLight;
+    updateGauge('numLight','subLight','gLight',l,0,1000,'#eab308',700,900,l>900?'☀️ สว่างมาก':l<100?'🌙 มืด':'✓ พอดี',false);
+    if(autoEnabled) runAuto();
+  },
+  'sensors/bmp/pressure': v=>updateSmall('valPres','subPres',parseFloat(v),'✓ ปกติ',false),
+  'sensors/air/co2': v=>{const c=parseFloat(v);updateSmall('valCO2','subCO2',c,c>1000?'⚠️ CO₂ สูง':'✓ ปกติ',c>1000);},
+  'sensors/soil/moisture': v=>{const s=parseFloat(v);updateSmall('valSoil','subSoil',s,s<20?'🏜️ แห้งมาก':s>80?'💦 ชุ่มมาก':'✓ ปกติ',false);},
+  'sensors/rain/intensity': v=>{
+    const pct=parseFloat(v);
+    // จะ raining ถ้า intensity > 20% (ปรับได้)
+    setRainUI(pct, pct>20);
+    addLog('sensors/rain/intensity',`${pct.toFixed(1)}%`,'rain');
+  },
+  'sensors/rain/detected': v=>{
+    const isR=(v==='RAIN');
+    // ถ้ายังไม่มี intensity ค่า แต่ได้รับ digital signal
+    const curPct=parseFloat(document.getElementById('valRain').textContent)||0;
+    if(isR&&curPct<20) setRainUI(50,true);
+    addLog('sensors/rain/detected',v,'rain');
+  },
+  'sensors/alert/flood_risk': v=>{
+    showAlert('⚠️ เสี่ยงน้ำท่วม! ฝนตก + ดินชื้นสูง');
+  },
+  'control/light': v=>{const on=v==='ON'||v==='1';if(on!==lightOn)setLight(on,true);},
+  'control/fan':   v=>{const on=v==='ON'||v==='1';if(on!==fanOn)setFan(on,true);}
+};
+
+function handleMsg(topic,raw){
+  // Rain topics already logged in topicMap, others log here
+  if(!topic.startsWith('sensors/rain')) addLog(topic,raw,'');
+  let val;
+  try{const p=JSON.parse(raw);val=p.value??p.val??p.data??Object.values(p)[0];}catch{val=raw.trim();}
+  if(topicMap[topic]) topicMap[topic](isNaN(parseFloat(val))?val:parseFloat(val));
+}
+
+
+
+
+
+/* ── Connect ── */
+document.getElementById('btnConnect').addEventListener('click',()=>{
+  if(client){client.end();client=null;setConn('disconnected');document.getElementById('btnConnect').textContent='Connect';return;}
+  if(demoInterval){clearInterval(demoInterval);demoInterval=null;document.getElementById('btnDemo').textContent='▶ Demo';}
+  const broker=document.getElementById('cfgBroker').value;
+  const cid=document.getElementById('cfgClientId').value||'iotdash_'+Date.now();
+  const prefix=document.getElementById('cfgPrefix').value;
+  document.getElementById('brokerInfo').textContent=broker.replace('wss://','').replace('/mqtt','');
+  setConn('connecting');document.getElementById('btnConnect').textContent='Disconnect';
+  try{
+    client=mqtt.connect(broker,{clientId:cid,clean:true,reconnectPeriod:3000});
+    client.on('connect',()=>{setConn('connected');client.subscribe(prefix,{qos:1});client.subscribe('control/#',{qos:1});});
+    client.on('message',(t,m)=>handleMsg(t,m.toString()));
+    client.on('error',()=>setConn('disconnected'));
+    client.on('offline',()=>setConn('disconnected'));
+  }catch(e){setConn('disconnected');document.getElementById('btnConnect').textContent='Connect';}
+});
+
+
+
+
+
+
+
+/* ── Demo ── */
+document.getElementById('btnDemo').addEventListener('click',()=>{
+  if(demoInterval){clearInterval(demoInterval);demoInterval=null;document.getElementById('btnDemo').textContent='▶ Demo';
+    setRainUI(0,false);return;}
+  if(client){client.end();client=null;setConn('disconnected');document.getElementById('btnConnect').textContent='Connect';}
+  document.getElementById('btnDemo').textContent='⏹ Stop';
+  setConn('connected');document.getElementById('brokerInfo').textContent='Demo Mode';
+  let tick=0;
+  function gen(){
+    tick++;
+    // จำลองฝนตกช่วง tick 15-25
+    const rainPct=tick>=15&&tick<=25 ? Math.min((tick-14)*10,100) : Math.max(0,(25-tick)*5);
+    const data=[
+      ['sensors/dht/temperature',(25+Math.sin(tick*.18)*12+(Math.random()-.5)*2).toFixed(1)],
+      ['sensors/dht/humidity',(60+Math.sin(tick*.13)*18+(Math.random()-.5)*3).toFixed(1)],
+      ['sensors/light/lux',Math.round(400+Math.sin(tick*.09)*380+Math.random()*40)],
+      ['sensors/bmp/pressure',(1013+Math.sin(tick*.05)*6).toFixed(1)],
+      ['sensors/air/co2',Math.round(400+Math.abs(Math.sin(tick*.11))*750+Math.random()*50)],
+      ['sensors/soil/moisture',(45+Math.sin(tick*.07)*22+(Math.random()-.5)*4).toFixed(1)],
+      ['sensors/rain/intensity', rainPct.toFixed(1)],
+    ];
+    const [topic,val]=data[tick%data.length];
+    handleMsg(topic,JSON.stringify({value:parseFloat(val)}));
+  }
+  gen();demoInterval=setInterval(gen,1100);
+});
+
+
+
+
+
+
+/* ── Publish ── */
+document.getElementById('btnPublish').addEventListener('click',()=>{
+  const topic=document.getElementById('pubTopic').value;
+  const payload=document.getElementById('pubPayload').value;
+  if(client&&client.connected) client.publish(topic,payload,{qos:1});
+  addLog(topic,payload,'pub');
+  try{const p=JSON.parse(payload);const v=p.value??p.val??Object.values(p)[0];if(topicMap[topic])topicMap[topic](isNaN(parseFloat(v))?v:parseFloat(v));}catch{}
+});
+</script>
+
+
+
+
+
+
+//====================================================================================================================//
+
+
+/* == Edit CSS === */
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+.dash{background:#0d0f14;padding:16px;font-family:'Inter',sans-serif;color:#e2e8f0;min-height:600px}
+.topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;padding-bottom:14px;border-bottom:.5px solid #1e2533}
+.logo{display:flex;align-items:center;gap:10px}
+.logo-icon{width:32px;height:32px;background:#00d4ff18;border:1px solid #00d4ff44;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:15px}
+.logo-text{font-size:15px;font-weight:600;letter-spacing:.5px}
+.logo-sub{font-size:10px;color:#4a5568;letter-spacing:1px;text-transform:uppercase}
+.status-bar{display:flex;align-items:center;gap:10px}
+.conn-badge{display:flex;align-items:center;gap:6px;font-size:12px;padding:5px 12px;border-radius:20px;border:.5px solid #1e2533}
+.conn-badge.connected{background:#0a1f1a;border-color:#00875a55;color:#00d68f}
+.conn-badge.disconnected{background:#1a0f0f;border-color:#e5534b44;color:#e5534b}
+.conn-badge.connecting{background:#151a0f;border-color:#f0a53055;color:#f0a530}
+.dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.dot.g{background:#00d68f;box-shadow:0 0 6px #00d68f88}
+.dot.r{background:#e5534b}
+.dot.y{background:#f0a530;animation:blink 1s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+.broker-info{font-size:11px;color:#4a5568}
+.sec{font-size:10px;font-weight:500;color:#4a5568;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px}
+
+/* ── GAUGE GRID (3 top) ── */
+.gauge-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:14px}
+.gauge-card{background:#131720;border:.5px solid #1e2533;border-radius:12px;padding:14px 10px 10px;display:flex;flex-direction:column;align-items:center;position:relative;overflow:hidden;transition:border-color .3s}
+.gauge-card:hover{border-color:#2a3548}
+.g-topbar{position:absolute;top:0;left:0;right:0;height:2px;border-radius:12px 12px 0 0}
+.gauge-label{font-size:10px;color:#4a5568;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;font-weight:500}
+.gauge-wrap{position:relative;width:130px;height:75px;margin-bottom:2px}
+.gauge-center{position:absolute;bottom:0;left:50%;transform:translateX(-50%);text-align:center;line-height:1}
+.gauge-num{font-size:24px;font-weight:300;letter-spacing:-1px}
+.gauge-unit{font-size:11px;color:#4a5568;margin-left:1px}
+.gauge-minmax{display:flex;justify-content:space-between;width:130px;font-size:9px;color:#2d3748;margin-top:2px}
+.gauge-sub{font-size:10px;margin-top:5px;font-weight:500}
+.gauge-topic{font-size:9px;color:#2d3748;font-family:monospace;margin-top:5px;padding:2px 7px;background:#0d0f14;border-radius:4px;border:.5px solid #1a1f2e}
+
+
+/*=================================================================================*/
+/* ── SMALL CARDS (2 rows: pressure+co2+soil | rain) ── */
+
+
+/*=================================================================================*/
+
+/*=================================================================================*/
+/* ── RAIN CARD ── */
+
+
+/*=================================================================================*/
+
+/*=================================================================================*/
+/* Rain intensity bar */
+
+
+/*=================================================================================*/
+
+/*=================================================================================*/
+/* ── CONTROL ── */
+
+
+/*=================================================================================*/
+
+/*=================================================================================*/
+/* ── AUTO ── */
+
+
+/*=================================================================================*/
+
+/*=================================================================================*/
+/* ── ALERT ── */
+
+
+/*=================================================================================*/
+
+/*=================================================================================*/
+/* ── BOTTOM ── */
+
+
+/*=================================================================================*/
+
+/*=================================================================================*/
+/* ── CONFIG ── */
+
+
+/*=================================================================================*/
+</style>
+
+
+
+
+/* ================================================================================*/
+
+/* == Edit HTML === */
+
+<div class="dash">
+  <!-- Topbar -->
+  <div class="topbar">
+    <div class="logo">
+      <div class="logo-icon">🌡️</div>
+      <div><div class="logo-text">IoT Sensor Dashboard</div><div class="logo-sub">EMQX · MQTT · Live</div></div>
+    </div>
+
+    <div class="status-bar">
+      <div class="broker-info" id="brokerInfo">broker.emqx.io:8084</div>
+      <div class="conn-badge disconnected" id="connBadge"><div class="dot r" id="connDot"></div><span id="connText">Disconnected</span></div>
+    </div>
+  </div>
+
+  <div class="alert-strip" id="alertStrip">⚠️ <span id="alertMsg"></span></div>
+  <div class="alert-strip blue" id="rainAlert" style="margin-bottom:10px">🌧️ <span id="rainAlertMsg"></span></div>
+  
+  <!-- ========================================================================================== -->
+  <!-- MQTT Config -->
+
+  <div class="cfg-wrap">
+    <div class="sec" style="margin-bottom:8px">MQTT Config</div>
+    <div class="cfg-row">
+      <div class="cfg-grp" style="flex:2"><div class="cfg-lbl">Broker (WebSocket)</div><input class="cfg-inp" id="cfgBroker" value="wss://broker.emqx.io:8084/mqtt"/></div>
+      <div class="cfg-grp"><div class="cfg-lbl">Client ID</div><input class="cfg-inp" id="cfgClientId" value="iotdash_001"/></div>
+      <div class="cfg-grp"><div class="cfg-lbl">Sub Topic</div><input class="cfg-inp" id="cfgPrefix" value="sensors/#"/></div>
+      <button class="cfg-btn p" id="btnConnect">Connect</button>
+      <button class="cfg-btn" id="btnDemo">▶ Demo</button>
+    </div>
+  </div>
+
+
+  <!-- ========================================================================================== -->
+   <!-- GAUGE: Temp / Humid / Light -->
+  <div class="sec">Sensor Readings</div>
+  <div class="gauge-grid">
+
+
+  </div>
+
+
+  <!-- ========================================================================================== -->
+
+  <!-- ========================================================================================== -->
+   <!-- Small cards: Pressure / CO2 / Soil / Rain -->
+  <div class="small-grid"></div>
+
+
+  </div>
+
+  <!-- ========================================================================================== -->
+
+  <!-- ========================================================================================== -->
+   <!-- Device Control -->
+  <div class="sec">Device Control</div>
+  <div class="control-grid">
+
+
+  </div>
+  <!-- ========================================================================================== -->
+
+  <!-- ========================================================================================== -->
+   <!-- Auto Control -->
+  <div class="sec">Auto Temperature Control</div>
+  <div class="auto-card">
+
+
+  </div>
+  <!-- ========================================================================================== -->
+
+  <!-- ========================================================================================== -->
+   <!-- Charts + Log -->
+  <div class="bottom-grid"></div>
+
+  </div>
+  <!-- ========================================================================================== -->  
+</div>
+
+
+
+
+
+/* ================================================================================*/
+
+/* == Edit Javascript === */
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mqtt/4.3.7/mqtt.min.js"></script>
+<script>
+
+/* ── Gauge ── */
+function drawGauge(id,val,min,max,color,warn,danger){
+  const c=document.getElementById(id); if(!c) return;
+  const w=130,h=75; c.width=w; c.height=h;
+  const ctx=c.getContext('2d');
+  ctx.clearRect(0,0,w,h);
+  const cx=w/2,cy=h-4,r=56;
+  const SA=Math.PI,EA=2*Math.PI;
+  const pct=Math.min(Math.max((val-min)/(max-min),0),1);
+  const vA=SA+pct*(EA-SA);
+  ctx.beginPath();ctx.arc(cx,cy,r,SA,EA);ctx.strokeStyle='#1e2533';ctx.lineWidth=10;ctx.lineCap='round';ctx.stroke();
+  function arc(s,e,col){ctx.beginPath();ctx.arc(cx,cy,r,s,e);ctx.strokeStyle=col;ctx.lineWidth=10;ctx.lineCap='butt';ctx.stroke();}
+  if(warn!=null&&danger!=null){
+    const wA=SA+((warn-min)/(max-min))*(EA-SA);
+    const dA=SA+((danger-min)/(max-min))*(EA-SA);
+    arc(SA,wA,'#1e3a1e');arc(wA,dA,'#2a2010');arc(dA,EA,'#2a1010');
+  }
+  const arcCol=danger!=null&&val>=danger?'#ef4444':warn!=null&&val>=warn?'#f97316':color;
+  ctx.beginPath();ctx.arc(cx,cy,r,SA,vA);ctx.strokeStyle=arcCol;ctx.lineWidth=10;ctx.lineCap='round';ctx.stroke();
+  const na=SA+pct*(EA-SA);
+  const nx=cx+Math.cos(na)*(r-14),ny=cy+Math.sin(na)*(r-14);
+  ctx.beginPath();ctx.arc(nx,ny,4,0,2*Math.PI);ctx.fillStyle='#fff';ctx.fill();
+  ctx.beginPath();ctx.arc(cx,cy,5,0,2*Math.PI);ctx.fillStyle='#2a3548';ctx.fill();
+  ctx.beginPath();ctx.arc(cx,cy,3,0,2*Math.PI);ctx.fillStyle='#4a5568';ctx.fill();
+}
+/* ================================================================================*/
+/* ── Rain drops animation ── */
+
+/* ================================================================================*/
+
+/* ================================================================================*/
+/* ── State ── */
+
+/* ================================================================================*/
+
+/* ================================================================================*/
+/* ── Topic Map ── */
+
+/* ================================================================================*/
+
+/* ================================================================================*/
+/* ── Connect ── */
+
+/* ================================================================================*/
+
+/* ================================================================================*/
+/* ── Demo ── */
+
+/* ================================================================================*/
+
+/* ================================================================================*/
+/* ── Publish ── */
+
+/* ================================================================================*/
+</script>
